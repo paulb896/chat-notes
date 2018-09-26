@@ -43,9 +43,9 @@
          * dependencies have downloaded.
          */
         Promise.all([
-            SystemJS.import('http://localhost:8080/notes-app.js'),
-            SystemJS.import('http://localhost:8080/notes-service.js'),
-            SystemJS.import('http://localhost:8080/shared/shared-sdk.js')
+            SystemJS.import('./notes-app.js'),
+            SystemJS.import('./notes-service.js'),
+            SystemJS.import('./shared/shared-sdk.js')
         ]).then(([NotesApp, NotesService, sharedSdk]) => {
             const notesService = new NotesService('http://localhost:4000');
             const notesApp = new NotesApp(notesService, sharedSdk);
