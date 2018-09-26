@@ -21,6 +21,7 @@
             margin: 10px;
         }
         .note {
+            background-color: rgba(0, 0, 0, 0.025);
             border-bottom: solid rgba(100, 100, 100, 0.5) 1px;
             padding: 15px;
         }
@@ -48,10 +49,6 @@
         ]).then(([NotesApp, NotesService, sharedSdk]) => {
             const notesService = new NotesService('http://localhost:4000');
             const notesApp = new NotesApp(notesService, sharedSdk);
-
-            notesApp.initialize('http://localhost:8080/shared/shared-sdk.js').then(() => {
-                notesApp.addInputListeners();
-            });
         });
     </script>
 </body>

@@ -1,5 +1,9 @@
 (function() {
     class NotesApp {
+        /**
+         * @param {NotesService} notesService 
+         * @param {SharedSdk} sharedSdk 
+         */
         constructor(notesService, sharedSdk) {
             this.notesElement = document.getElementById('notes');
             this.noteAddButtonElement = document.getElementById('add-note-button');
@@ -8,6 +12,7 @@
             this.notesService = notesService;
             this.sharedSdk = sharedSdk;
 
+            this.addInputListeners();
             notesService.getNotes().then(notes => this.renderNotes(notes));
         }
 

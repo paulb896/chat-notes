@@ -12,6 +12,7 @@
   "dependencies": {
     "apollo-server": "^2.1.0",
     "graphql": "^14.0.2",
-    "uniqid": "^5.0.3"
+    "uniqid": "^5.0.3",
+    "uuid": "^3.3.2"
   }
 }

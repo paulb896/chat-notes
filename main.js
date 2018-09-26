@@ -1,8 +1,8 @@
 const { ApolloServer, gql } = require('apollo-server');
-// TODO: Replace with https://github.com/kelektiv/node-uuid
-const uniqid = require('uniqid');
+const uuidv4 = require('uuid/v4');
 const sharedSdk = require('./shared/shared-sdk');
 
+// TODO: Replace with Redis
 const notes = [];
 
 const typeDefs = gql`
@@ -46,7 +46,7 @@ const resolvers = {
                 return;
             }
 
-            notes.push(Object.assign({id: uniqid()}, note));
+            notes.push(Object.assign({id: uuidv4()}, note));
         },
         editNote: (ctx, editedNote) => {
             const validationErrors = sharedSdk.validator.validateNote(editedNote.message);
