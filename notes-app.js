@@ -71,13 +71,14 @@
             const self = this;
 
             notes.map(note => {
-                const noteElement = document.createElement('div');
+                const noteElement = document.createElement('input');
+                noteElement.type = 'text';
 
-                noteElement.innerHTML = note.message;
+                noteElement.value = note.message;
                 noteElement.classList.add('note');
                 noteElement.contentEditable = true;
-                noteElement.addEventListener('keydown', (event) => {
-                    const noteText = noteElement.innerHTML;
+                noteElement.addEventListener('keyup', (event) => {
+                    const noteText = event.target.value;
                     const noteErrors = validateNote(noteText);
 
                     if (noteErrors.length) {
@@ -86,7 +87,7 @@
                         return;
                     }
 
-                    notesService.editNote(note.id, noteElement.innerHTML);
+                    notesService.editNote(note.id, noteText);
                 });
                 this.notesElement.appendChild(noteElement);
             });
