@@ -2,17 +2,14 @@
 
 Create and edit notes using shared logic on server and client.
 
-## Install
+## Run the server and web client
 
-    npm i
-    npm i -g http-server
+    sh run-example.sh
 
-## Run
+## [Example Web Client](./client/README.md)
 
-    npm start
-    http-server
+## [GraphQL Server](./server/README.md)
 
-You should now be able to see the app running here: [http://localhost:8080/](http://localhost:8080/)
 
 Create a note and invite people to talk about it and edit the note.
 

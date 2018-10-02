@@ -11,7 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.1.0",
+    "apollo-server-koa": "^2.1.0",
     "graphql": "^14.0.2",
+    "koa": "^2.5.3",
+    "koa-static": "^5.0.0",
+    "redis": "^2.8.0",
     "uniqid": "^5.0.3",
     "uuid": "^3.3.2"
   }
