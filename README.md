@@ -6,6 +6,8 @@ Create and edit notes using shared logic on server and client.
 
     sh run-example.sh
 
+You should now be able to view the app here: [http://localhost:8080](http://localhost:8080).
+
 ## [Example Web Client](./client/README.md)
 
 ## [GraphQL Server](./server/README.md)
