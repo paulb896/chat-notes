@@ -8,9 +8,9 @@ Create and edit notes using shared logic on server and client.
 
 You should now be able to view the app here: [http://localhost:8080](http://localhost:8080).
 
-## [Example Web Client](./client/README.md)
+## [Example Web Client](./client)
 
-## [GraphQL Server](./server/README.md)
+## [GraphQL Server](./server)
 
 
 Create a note and invite people to talk about it and edit the note.
