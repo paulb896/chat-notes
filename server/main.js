@@ -3,15 +3,10 @@ const Koa = require('koa');
 const koaStatic = require('koa-static');
 const { ApolloServer, gql } = require('apollo-server-koa');
 const sharedSdk = require('./shared/shared-sdk');
-
-
-// const redis = require('redis');
-// const client = redis.createClient();
-
-// client.on("error", function (err) {
-//     console.log("Redis Error " + err);
-// });
-
+const client = {
+    set: () => {},
+    get: () => {}
+};
 
 const notes = [];
 
