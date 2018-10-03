@@ -3,10 +3,6 @@ const Koa = require('koa');
 const koaStatic = require('koa-static');
 const { ApolloServer, gql } = require('apollo-server-koa');
 const sharedSdk = require('./shared/shared-sdk');
-const client = {
-    set: () => {},
-    get: () => {}
-};
 
 const notes = [];
 
@@ -51,8 +47,6 @@ const resolvers = {
                 return;
             }
 
-            client.set(`notes-${note.id}`, note);
-
             notes.push(Object.assign({id: uuidv4()}, note));
         },
         editNote: (ctx, editedNote) => {
@@ -86,7 +80,7 @@ app.use(async (ctx, next) => {
     ctx.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     ctx.set('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
     await next();
-  });
+});
 
 app.use(koaStatic(SHARED_MODULE_DIRECTORY));
 
