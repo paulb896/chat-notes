@@ -1,0 +1,22 @@
+.edit-note_message {
+    resize: none;
+    border: none;
+    margin-left: 10%;
+    margin-top: 10%;
+    height: 80%;
+    width: 80%;
+}
+  
+.edit-note_message:focus {
+    outline: none;
+}
+
+.note {
+    outline: solid rgb(50, 100, 100) 1px;
+    display: inline-block;
+    height: 150px;
+    margin: 8px;
+    text-align: justify;
+    width: 150px;
+    justify-content: center;
+}

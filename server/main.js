@@ -47,7 +47,7 @@ const resolvers = {
                 return;
             }
 
-            notes.push(Object.assign({id: uuidv4()}, note));
+            notes.unshift(Object.assign({id: uuidv4()}, note));
         },
         editNote: (ctx, editedNote) => {
             const validationErrors = sharedSdk.validator.validateNote(editedNote.message);
@@ -61,7 +61,7 @@ const resolvers = {
                     notes[key] = Object.assign(notes[key], editedNote);
                     pubsub.publish(NOTE_CHANGED, { noteChanged: note});
                 }
-            })
+            });
         }
     },
     Subscription: {

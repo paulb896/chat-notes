@@ -1,0 +1,41 @@
+.App {
+    text-align: center;
+}
+
+.App-header {
+    background-color: #222;
+    color: white;
+    font-size: 150%;
+    height: 150px;
+    padding: 20px;
+}
+
+.App-title {
+    font-size: 1.5em;
+}
+
+.App-intro {
+    font-size: large;
+}
+
+.create-note {
+    padding: 10px;
+}
+
+.create-note_button {
+    padding: 10px;
+    vertical-align: bottom;
+}
+
+.create-note_message {
+    height: 150px;
+    margin-right: 5px;
+    padding: 10px;
+    text-align: justify;
+    vertical-align: top;
+    widows: 150px;
+}
+
+.create-note_message:focus {
+    outline: none;
+}

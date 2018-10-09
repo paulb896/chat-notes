@@ -1,5 +1,5 @@
 (function() {
-    const NOTE_CHARACTER_LIMIT = 20;
+    const NOTE_CHARACTER_LIMIT = 60;
     let SharedSdk = (function() {
         return {
             /**
