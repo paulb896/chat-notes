@@ -16,4 +16,4 @@ The app should now be running here: [http://localhost:3000](http://localhost:300
 
 ## Build for Production
 
-    npm build
+    npm run build
