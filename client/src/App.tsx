@@ -6,12 +6,12 @@ import NotesService from './NotesService';
 class App extends React.Component<any, any> {
     private notesService : NotesService;
     public constructor(props: any) {
-        super(props); 
+        super(props);
+
         this.state = {
             noteMessage: '',
             notes: []
         };
-
         this.notesService = new NotesService('http://localhost:4000/graphql');
         this.handleNoteMessageChange = this.handleNoteMessageChange.bind(this);
         this.handleAddNote = this.handleAddNote.bind(this);

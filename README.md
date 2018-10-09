@@ -8,7 +8,7 @@ Create and edit notes using shared logic on server and client.
 
 You should now be able to view the app here: [http://localhost:8080](http://localhost:8080).
 
-## [Example Web Client](./client)
+## [Example React Web Client](./client)
 
 ## [GraphQL Server](./server)
 

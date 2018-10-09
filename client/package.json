@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "apollo-boost": "^0.1.16",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.0",
     "jest-cli": "^23.6.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -16,6 +19,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/graphql": "^14.0.2",
     "@types/jest": "^23.3.3",
     "@types/node": "^10.11.4",
     "@types/react": "^16.4.15",

@@ -12,12 +12,17 @@ class Note extends React.Component<any, any> {
         const { message, id } = props;
         const serverBaseUrl : string = 'http://localhost:4000';
 
-        this.messageValidator = (rawMessage : string) => (!rawMessage.length);
+        this.messageValidator = {
+            validateNote: (rawMessage : string) => (!rawMessage.length)
+        };
 
         // @ts-ignore
-        SystemJS.import(`${serverBaseUrl}/shared-sdk.js`).then( (sdk : any) => {
-            this.messageValidator = sdk.validator;
-        });
+        if (SystemJS) {
+            // @ts-ignore
+            SystemJS.import(`${serverBaseUrl}/shared-sdk.js`).then( (sdk : any) => {
+                this.messageValidator = sdk.validator;
+            });
+        }
 
         this.notesService = new NotesService('http://localhost:4000/graphql');
         this.state = {
@@ -26,8 +31,6 @@ class Note extends React.Component<any, any> {
         };
         this.handleNoteMessageChange = this.handleNoteMessageChange.bind(this);
     }
-
-
 
     /**
      * Update message state when note input updates.
@@ -39,8 +42,9 @@ class Note extends React.Component<any, any> {
 
         if (this.messageValidator.validateNote(message).length === 0) {
             this.notesService.editNote(this.state.id, message);
-            this.setState({ message });
         }
+
+        this.setState({ message });
     }
 
     public render() {

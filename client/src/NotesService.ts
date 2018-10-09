@@ -1,9 +1,22 @@
+import ApolloClient, { InMemoryCache } from 'apollo-boost';
+import gql from 'graphql-tag';
 
 class NotesService {
-    private serverBaseUrl: string;
+    private client : ApolloClient<InMemoryCache>;
+    private NOTES_QUERY = gql`
+        query {
+            notes {
+                id
+                message
+            }
+        }
+    `;
 
     constructor(serverBaseUrl: string) {
-        this.serverBaseUrl = serverBaseUrl;
+        this.client = new ApolloClient({
+            cache: new InMemoryCache(),
+            uri: serverBaseUrl
+        });
     }
 
     /**
@@ -12,13 +25,13 @@ class NotesService {
      * @returns Promise
      */
     public getNotes() {
-        return fetch(this.serverBaseUrl, {
-            body: JSON.stringify({ query: '{ notes { message id } }' }),
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST'
+        return this.client.query({
+            query: this.NOTES_QUERY
         })
-        .then(res => res.json())
-        .then(res => res.data.notes);
+        .then(res => {
+            // @ts-ignore
+            return res.data.notes;
+        });
     }
 
     /**
@@ -29,10 +42,29 @@ class NotesService {
      * @returns Promise
      */
     public addNote(message: string) {
-        return fetch(this.serverBaseUrl, {
-            body: JSON.stringify({ query: `mutation{ addNote (message: "${message}") }` }),
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST'
+        return this.client.mutate({
+            mutation: gql`
+                mutation {
+                    addNote(message:"${message}") {
+                        message
+                        id
+                    }
+                }
+            `,
+            update: (proxy, { data }) => {
+                // @ts-ignore
+                const addNote = data.addNote;
+                // @ts-ignore
+                const cachedNotes : [any] = proxy.readQuery({ query: this.NOTES_QUERY });
+                if (cachedNotes) {
+                    // @ts-ignore
+                    const notes = cachedNotes.notes;
+                    notes.push(addNote);
+
+                    // @ts-ignore
+                    proxy.writeQuery({ query: this.NOTES_QUERY, notes });
+                }
+            }
         });
     }
 
@@ -45,10 +77,34 @@ class NotesService {
      * @returns Promise
      */
     public editNote(id: string, message: string) {
-        return fetch(this.serverBaseUrl, {
-            body: JSON.stringify({ query: `mutation{ editNote (message: "${message}", id: "${id}") }` }),
-            headers: { 'Content-Type': 'application/json' },
-            method: 'POST'
+        return this.client.mutate({
+            mutation: gql`
+                mutation {
+                    editNote(id: "${id}", message:"${message}") {
+                        message
+                        id
+                    }
+                }
+            `,
+            update: (proxy, { data }) => {
+                // @ts-ignore
+                const editNote = data.editNote;
+                // @ts-ignore
+                const cachedNotes : [any] = proxy.readQuery({ query: this.NOTES_QUERY });
+                if (cachedNotes) {
+                    // @ts-ignore
+                    const notes = cachedNotes.notes.map(note => {
+                        if (note.id === editNote.id) {
+                            note.message = editNote.message;
+                        }
+
+                        return note;
+                    });
+
+                    // @ts-ignore
+                    proxy.writeQuery({ query: this.NOTES_QUERY, notes });
+                }
+            }
         });
     }
 }

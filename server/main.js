@@ -20,8 +20,8 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        addNote(message: String): String
-        editNote(message: String, id: String): String
+        addNote(message: String) : Note
+        editNote(message: String, id: String) : Note
     }
 
     type Subscription {
@@ -47,21 +47,29 @@ const resolvers = {
                 return;
             }
 
-            notes.unshift(Object.assign({id: uuidv4()}, note));
+            const addedNote = Object.assign({id: uuidv4()}, note);
+
+            notes.push(addedNote);
+
+            return addedNote;
         },
-        editNote: (ctx, editedNote) => {
-            const validationErrors = sharedSdk.validator.validateNote(editedNote.message);
+        editNote: (ctx, updatedNote) => {
+            const validationErrors = sharedSdk.validator.validateNote(updatedNote.message);
 
             if (validationErrors.length) {
                 return;
             }
 
+            let editedNote;
+
             notes.forEach((note, key) => {
-                if (note.id === editedNote.id) {
+                if (note.id === updatedNote.id) {
+                    editedNote = updatedNote;
                     notes[key] = Object.assign(notes[key], editedNote);
-                    pubsub.publish(NOTE_CHANGED, { noteChanged: note});
                 }
             });
+
+            return editedNote;
         }
     },
     Subscription: {
