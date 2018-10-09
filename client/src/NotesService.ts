@@ -58,14 +58,19 @@ class NotesService {
                 // @ts-ignore
                 const addNote = data.addNote;
                 // @ts-ignore
-                const cachedNotes : [any] = proxy.readQuery({ query: this.NOTES_QUERY });
-                if (cachedNotes) {
+                const cachedNotes : any = proxy.readQuery({
+                    query: this.NOTES_QUERY,
+                    variables: {
+                        messageText: ''
+                    }
+                });
+                if (cachedNotes && cachedNotes.notes) {
                     // @ts-ignore
                     const notes = cachedNotes.notes;
                     notes.push(addNote);
 
                     // @ts-ignore
-                    proxy.writeQuery({ query: this.NOTES_QUERY, notes });
+                    proxy.writeQuery({ query: this.NOTES_QUERY, data: notes });
                 }
             }
         });
@@ -105,7 +110,7 @@ class NotesService {
                     });
 
                     // @ts-ignore
-                    proxy.writeQuery({ query: this.NOTES_QUERY, notes });
+                    proxy.writeQuery({ query: this.NOTES_QUERY, data: notes });
                 }
             }
         });
