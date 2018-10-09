@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 class NotesService {
     private client : ApolloClient<InMemoryCache>;
     private NOTES_QUERY = gql`
-        query {
-            notes {
+        query ($messageText: String) {
+            notes (messageText: $messageText) {
                 id
                 message
             }
@@ -24,9 +24,12 @@ class NotesService {
      * 
      * @returns Promise
      */
-    public getNotes() {
+    public getNotes(searchText: string) {
         return this.client.query({
-            query: this.NOTES_QUERY
+            query: this.NOTES_QUERY,
+            variables: {
+                messageText: searchText
+            }
         })
         .then(res => {
             // @ts-ignore

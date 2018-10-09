@@ -24,7 +24,7 @@
 
 .create-note_button {
     padding: 10px;
-    vertical-align: bottom;
+    vertical-align: top;
 }
 
 .create-note_message {
@@ -38,4 +38,9 @@
 
 .create-note_message:focus {
     outline: none;
+}
+
+.search-note_text {
+    padding: 10px;
+    margin-left: 10px;
 }

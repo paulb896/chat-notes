@@ -29,7 +29,7 @@ const typeDefs = gql`
     }
 
     type Query {
-        notes: [Note]
+        notes(messageText: String): [Note]
     }
 `;
 
@@ -37,7 +37,13 @@ const NOTE_CHANGED = 'note_changed';
 
 const resolvers = {
     Query: {
-        notes: () => notes
+        notes: (ctx, args) => {
+            const { messageText } = args;
+
+            return notes.filter((note) => {
+                return !messageText || note.message.toLowerCase().indexOf(messageText.toLowerCase()) >= 0;
+            });
+        }
     },
     Mutation: {
         addNote: (ctx, note) => {
