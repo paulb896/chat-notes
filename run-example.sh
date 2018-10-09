@@ -1,6 +1,8 @@
 # Serve web client files
-http-server client &
+cd client
+npm i
+npm start &
 
-cd server
+cd ../server
 npm i
 npm start
