@@ -2,9 +2,12 @@ import * as React from 'react';
 import './App.css';
 import Note from './Note';
 import NotesService from './NotesService';
+import NoteValidator from './NoteValidator';
 
 class App extends React.Component<any, any> {
     private notesService : NotesService;
+    private noteValidator = new NoteValidator();
+
     public constructor(props: any) {
         super(props);
 
@@ -34,7 +37,14 @@ class App extends React.Component<any, any> {
      * Add `state.noteMessage` to list of current notes.
      */
     public handleAddNote() {
-        this.notesService.addNote(this.state.noteMessage).then(() => {
+        const { noteMessage } = this.state;
+        const noteErrors = this.noteValidator.validateNote(noteMessage);
+
+        if (noteErrors.length) {
+            return;
+        }
+
+        this.notesService.addNote(noteMessage).then(() => {
             this.setState({ noteMessage: '' });
             this.loadNotes();
         })

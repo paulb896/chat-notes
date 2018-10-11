@@ -12,6 +12,9 @@ class NotesService {
         }
     `;
 
+    /**
+     * @param serverBaseUrl
+     */
     constructor(serverBaseUrl: string) {
         this.client = new ApolloClient({
             cache: new InMemoryCache(),
@@ -97,10 +100,15 @@ class NotesService {
             update: (proxy, { data }) => {
                 // @ts-ignore
                 const editNote = data.editNote;
-                // @ts-ignore
-                const cachedNotes : [any] = proxy.readQuery({ query: this.NOTES_QUERY });
-                if (cachedNotes) {
-                    // @ts-ignore
+
+                try {
+                    const cachedNotes : any = proxy.readQuery({
+                        query: this.NOTES_QUERY,
+                        variables: {
+                            messageText: ''
+                        }
+                    });
+
                     const notes = cachedNotes.notes.map(note => {
                         if (note.id === editNote.id) {
                             note.message = editNote.message;
@@ -110,7 +118,9 @@ class NotesService {
                     });
 
                     // @ts-ignore
-                    proxy.writeQuery({ query: this.NOTES_QUERY, data: notes });
+                    proxy.writeQuery({ query: this.NOTES_QUERY, data: { notes } });
+                } catch(e) {
+                    window.console.log(e);
                 }
             }
         });

@@ -70,7 +70,6 @@ module.exports = class NotesService {
 
         notes.forEach((note, key) => {
             if (id === note.id) {
-                editedNote = updatedNote;
                 notes[key].message = message;
             }
         });

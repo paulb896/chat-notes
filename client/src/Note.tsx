@@ -1,28 +1,16 @@
 import * as React from 'react';
 import NotesService from './NotesService';
+import NoteValidator from './NoteValidator';
 
 import './Note.css';
 
 class Note extends React.Component<any, any> {
     private notesService : NotesService;
-    private messageValidator : any;
+    private noteValidator = new NoteValidator();
 
     constructor(props: any) {
         super(props);
         const { message, id } = props;
-        const serverBaseUrl : string = 'http://localhost:4000';
-
-        this.messageValidator = {
-            validateNote: (rawMessage : string) => (!rawMessage.length)
-        };
-
-        // @ts-ignore
-        if (SystemJS) {
-            // @ts-ignore
-            SystemJS.import(`${serverBaseUrl}/shared-sdk.js`).then( (sdk : any) => {
-                this.messageValidator = sdk.validator;
-            });
-        }
 
         this.notesService = new NotesService('http://localhost:4000/graphql');
         this.state = {
@@ -40,7 +28,7 @@ class Note extends React.Component<any, any> {
     public handleNoteMessageChange(event: any) {
         const message = event.currentTarget.value;
 
-        if (this.messageValidator.validateNote(message).length === 0) {
+        if (this.noteValidator.validateNote(message).length === 0) {
             this.notesService.editNote(this.state.id, message);
         }
 
