@@ -1,10 +1,9 @@
-const uuidv4 = require('uuid/v4');
 const Koa = require('koa');
 const koaStatic = require('koa-static');
 const { ApolloServer, gql } = require('apollo-server-koa');
 const sharedSdk = require('./shared/shared-sdk');
-
-const notes = [];
+const NotesService = require('./NotesService');
+const notesService = new NotesService();
 
 const typeDefs = gql`
 
@@ -34,48 +33,32 @@ const typeDefs = gql`
 `;
 
 const NOTE_CHANGED = 'note_changed';
-
 const resolvers = {
     Query: {
-        notes: (ctx, args) => {
+        notes: async (ctx, args) => {
             const { messageText } = args;
 
-            return notes.filter((note) => {
-                return !messageText || note.message.toLowerCase().indexOf(messageText.toLowerCase()) >= 0;
-            });
+            return notesService.getNotes(messageText);
         }
     },
     Mutation: {
-        addNote: (ctx, note) => {
-            const validationErrors = sharedSdk.validator.validateNote(note.message);
+        addNote: (ctx, args) => {
+            const validationErrors = sharedSdk.validator.validateNote(args.message);
 
             if (validationErrors.length) {
                 return;
             }
 
-            const addedNote = Object.assign({id: uuidv4()}, note);
-
-            notes.push(addedNote);
-
-            return addedNote;
+            return notesService.addNote(args.message);
         },
         editNote: (ctx, updatedNote) => {
             const validationErrors = sharedSdk.validator.validateNote(updatedNote.message);
 
-            if (validationErrors.length) {
+            if (!updatedNote.id || validationErrors.length) {
                 return;
             }
 
-            let editedNote;
-
-            notes.forEach((note, key) => {
-                if (note.id === updatedNote.id) {
-                    editedNote = updatedNote;
-                    notes[key] = Object.assign(notes[key], editedNote);
-                }
-            });
-
-            return editedNote;
+            return notesService.editNote(updatedNote.id, updatedNote.message);
         }
     },
     Subscription: {
