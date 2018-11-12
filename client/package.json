@@ -2,6 +2,12 @@
   "name": "chat-notes-web-app",
   "version": "0.1.0",
   "private": true,
+  "scripts": {
+    "start": "react-scripts-ts start",
+    "build": "react-scripts-ts build",
+    "test": "react-scripts-ts test --env=jsdom",
+    "eject": "react-scripts-ts eject"
+  },
   "dependencies": {
     "apollo-boost": "^0.1.16",
     "graphql": "^14.0.2",
@@ -11,12 +17,6 @@
     "react-dom": "^16.5.2",
     "react-scripts-ts": "3.1.0",
     "systemjs": "^2.0.2"
-  },
-  "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
     "@types/graphql": "^14.0.2",

@@ -5,6 +5,8 @@ const circuitBreaker = require('opossum');
 const notes = [];
 
 module.exports = class NotesClient {
+    loadNotesWithBreaker: { fire(...args: any[]): Promise<any> };
+
     constructor() {
         const options = {
             timeout: 3000,

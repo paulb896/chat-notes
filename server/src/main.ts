@@ -19,9 +19,14 @@ const typeDefs = gql`
         author: [User]
     }
 
+    input NoteInput {
+        message: String
+        id: String
+    }
+
     type Mutation {
-        addNote(message: String) : Note
-        editNote(message: String, id: String) : Note
+        addNote(note: NoteInput) : Note
+        editNote(note: NoteInput) : Note
     }
 
     type Subscription {
@@ -43,23 +48,23 @@ const resolvers = {
         }
     },
     Mutation: {
-        addNote: (ctx, args) => {
-            const validationErrors = sharedSdk.validator.validateNote(args.message);
+        addNote: (ctx, { note }) => {
+            const validationErrors = sharedSdk.validator.validateNote(note.message);
 
             if (validationErrors.length) {
                 return;
             }
 
-            return notesClient.addNote(args.message);
+            return notesClient.addNote(note.message);
         },
-        editNote: (ctx, updatedNote) => {
-            const validationErrors = sharedSdk.validator.validateNote(updatedNote.message);
+        editNote: (ctx, { note }) => {
+            const validationErrors = sharedSdk.validator.validateNote(note.message);
 
-            if (!updatedNote.id || validationErrors.length) {
+            if (!note.id || validationErrors.length) {
                 return;
             }
 
-            return notesClient.editNote(updatedNote.id, updatedNote.message);
+            return notesClient.editNote(note.id, note.message);
         }
     },
     Subscription: {
@@ -86,7 +91,7 @@ app.use(async (ctx, next) => {
 server.applyMiddleware({ app });
 
 app.listen({ port: 4000 }, () =>
-    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`),
+    console.log(`Server ready at http://localhost:4000${server.graphqlPath}`),
 );
 
 
