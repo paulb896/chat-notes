@@ -71,7 +71,8 @@ const resolvers = {
 
 const server = new ApolloServer({ typeDefs, resolvers });
 const app = new Koa();
-const SHARED_MODULE_DIRECTORY = 'shared';
+const SHARED_MODULE_DIRECTORY = __dirname + '/shared';
+app.use(koaStatic(SHARED_MODULE_DIRECTORY));
 
 app.use(async (ctx, next) => {
     ctx.set('Access-Control-Allow-Origin', '*');
@@ -80,7 +81,7 @@ app.use(async (ctx, next) => {
     await next();
 });
 
-app.use(koaStatic(SHARED_MODULE_DIRECTORY));
+
 
 server.applyMiddleware({ app });
 
