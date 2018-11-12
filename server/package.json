@@ -5,7 +5,8 @@
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node main.js"
+    "build": "npx babel ./src --out-dir dist --extensions \".ts,.tsx\"",
+    "start": "node dist/main.js"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,17 @@
     "redis": "^2.8.0",
     "uniqid": "^5.0.3",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.5",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.5",
+    "@babel/preset-typescript": "^7.1.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-preset-es2015": "^6.24.1",
+    "tsc": "^1.20150623.0"
   }
 }

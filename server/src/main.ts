@@ -1,9 +1,10 @@
+import 'babel-polyfill';
 const Koa = require('koa');
 const koaStatic = require('koa-static');
 const { ApolloServer, gql } = require('apollo-server-koa');
 const sharedSdk = require('./shared/shared-sdk');
-const NotesService = require('./NotesService');
-const notesService = new NotesService();
+const NotesClient = require('./NotesClient');
+const notesClient = new NotesClient();
 
 const typeDefs = gql`
 
@@ -38,7 +39,7 @@ const resolvers = {
         notes: async (ctx, args) => {
             const { messageText } = args;
 
-            return notesService.getNotes(messageText);
+            return notesClient.getNotes(messageText);
         }
     },
     Mutation: {
@@ -49,7 +50,7 @@ const resolvers = {
                 return;
             }
 
-            return notesService.addNote(args.message);
+            return notesClient.addNote(args.message);
         },
         editNote: (ctx, updatedNote) => {
             const validationErrors = sharedSdk.validator.validateNote(updatedNote.message);
@@ -58,7 +59,7 @@ const resolvers = {
                 return;
             }
 
-            return notesService.editNote(updatedNote.id, updatedNote.message);
+            return notesClient.editNote(updatedNote.id, updatedNote.message);
         }
     },
     Subscription: {

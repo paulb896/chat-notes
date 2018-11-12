@@ -4,7 +4,7 @@ const circuitBreaker = require('opossum');
 // TODO: Convert to Redis Storage
 const notes = [];
 
-module.exports = class NotesService {
+module.exports = class NotesClient {
     constructor() {
         const options = {
             timeout: 3000,
