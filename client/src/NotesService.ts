@@ -48,8 +48,6 @@ class NotesService {
      * @returns Promise
      */
     public addNote(message: string) {
-        // @ts-ignore
-        debugger;
         return this.client.mutate({
             mutation: gql`
                 mutation {
